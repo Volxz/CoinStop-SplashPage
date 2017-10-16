@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content=" CoinStop.me is a mining pool provider for various cryptocurrencies all of which contain 0% pool fees and utilise the PPLNS payout method. CoinStop.me solely rely on member donations to assist with ongoing costs related to the operation of all mining pools, please consider donating. We hope you enjoy this mining pool!">
+    <title>Coin Stop | Mining Pool Site | CoinStop</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/landing-page.css" rel="stylesheet">
+
+
+</head>
+<body>
+<a name="about"></a>
+<div class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="intro-message">
+                    <img src="./img/Logo2.png" width="1200px" height="310px" class="coinstop enlarge">
+                    <p>Welcome and thank you for visting. CoinStop.me is a mining pool provider for various
+                        cryptocurrencies
+                        all of which contain 0% pool fees and utilise the PPLNS payout method.
+                        CoinStop.me solely rely on member donations to assist with ongoing costs related to the
+                        operation of
+                        all mining pools, please consider donating. We hope you enjoy our mining pools!</p>
+                    <hr class="intro-divider">
+                    <a class="page-scroll buttonabout" href="#about">
+                        <button>About</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" ng-app="splash" ng-controller="poolCtrl">
+    <div class="row centered pools" id="pools">
+        <h1 class="text-center">Mining Pools</h1>
+    </div>
+    <!--Start Pool Type and list-->
+    <div class="container" ng-repeat="(pooltype, pools) in poolJSON">
+        <h2 class="type text-center">{{pooltype}}</h2>
+        <hr>
+
+        <div class="col-lg-3 centered icon" ng-repeat="pool in pools">
+            <a href="{{pool.url + " .coinstop.me"}}" target="_blank">
+            <img class="logo img img-circle" ng-src="{{pool.image}}" height="120px" width="120px">
+            </a>
+            <h4>{{pool.name}}</h4>
+            <p>Symbol/Tag: {{pool.tag}}<br>
+                Block Time: {{pool.blocktime}}<br>
+                Block Reward: {{pool.reward}}<br>
+                Difficulty Retarget: {{pool.retarget}}<br>
+                Confirmations: {{pool.confirms}}<br>
+                Main Port: {{pool.port}}<br>
+                NiceHash / MRR Port: {{pool.nhport}}<br>
+            </p>
+            <br>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="about">
+        <h2 class="text-center" id="about">About</h2>
+        <p class="text-center">CoinStop team devotes all of our time &amp; effort to maintaining a Safe &amp; Secure
+            mining experience. Happy Hashing :)</p>
+        <div id="carousel" class="carousel slide" data-ride="carousel">
+
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="./img/SSL.png" width="1920" height="1080" alt="1">
+                </div>
+            </div>
+
+            <a class="left carousel-control" href="#carousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-inline">
+                    <li>
+                        <a href="#" class="text-center">Coin Stop</a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted small text-center">
+                    Buy us a coffee!: BTC: <a>1NR3UYHsRHshK4ETdkYJH16TsAjKigAcvS</a><br>
+                    Copyright © Coin Stop 2017. All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery.easing.min.js"></script>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/js.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+
+<script>
+    var app = angular.module('splash', []);
+    app.controller('poolCtrl', function ($scope) {
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'config/pools.json',
+                dataType: 'json',
+                success: function (json) {
+                    console.log(json);
+                    $scope.poolJSON = json;
+                    $scope.$apply();
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

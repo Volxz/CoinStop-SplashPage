@@ -1,0 +1,27 @@
+{
+  "SHA256": [
+    {
+      "name": "Acoin",
+      "image": "IMG/ACOIN.png",
+      "tag": "Acoin",
+      "blocktime": "40 seconds",
+      "reward": "0.01",
+      "retarget": "1 block",
+      "confirms": "120",
+      "port": "3008",
+      "nhport": "3208",
+      "url": "acoin"
+    },
+    {
+      "name": "eMark",
+      "image": "IMG/DEM.png",
+      "tag": "DEM",
+      "blocktime": "2 Minutes",
+      "reward": "50",
+      "retarget": "144 blocks",
+      "confirms": "101",
+      "port": "3001",
+      "nhport": "3201"
+    }
+  ]
+}
