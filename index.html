@@ -44,7 +44,7 @@
         <hr>
 
         <div class="col-lg-3 centered icon" ng-repeat="pool in pools">
-            <a href="{{pool.url + " .coinstop.me"}}" target="_blank">
+            <a ng-href="{{pool.url}}" target="_blank">
             <img class="logo img img-circle" ng-src="{{pool.image}}" height="120px" width="120px">
             </a>
             <h4>{{pool.name}}</h4>
@@ -131,6 +131,8 @@
             });
         });
     });
+
+
 </script>
 
 </body>

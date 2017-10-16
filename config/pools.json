@@ -10,7 +10,7 @@
       "confirms": "120",
       "port": "3008",
       "nhport": "3208",
-      "url": "acoin"
+      "url": "https://acoin.coinstop.me"
     },
     {
       "name": "eMark",
@@ -21,7 +21,8 @@
       "retarget": "144 blocks",
       "confirms": "101",
       "port": "3001",
-      "nhport": "3201"
+      "nhport": "3201",
+      "url": "https://dem.coinstop.me"
     }
   ]
 }
