@@ -45,7 +45,7 @@
 
         <div class="col-lg-3 centered icon" ng-repeat="pool in pools">
             <a ng-href="{{pool.url}}" target="_blank">
-            <img class="logo img img-circle" ng-src="{{pool.image}}" height="120px" width="120px">
+                <img class="logo img img-circle" ng-src="{{pool.image}}" height="120px" width="120px">
             </a>
             <h4>{{pool.name}}</h4>
             <p>Symbol/Tag: {{pool.tag}}<br>
@@ -55,6 +55,12 @@
                 Confirmations: {{pool.confirms}}<br>
                 Main Port: {{pool.port}}<br>
                 NiceHash / MRR Port: {{pool.nhport}}<br>
+                Pool Hashrate: {{poolAPIJSON[pool.name].hashrate}}<br>
+                Net Hashrate: {{poolAPIJSON[pool.name].network_hashrate}}<br>
+                Workers: {{poolAPIJSON[pool.name].workers}}<br>
+                Last Block: #{{poolAPIJSON[pool.name].last_block}}<br>
+
+
             </p>
             <br>
         </div>
@@ -117,6 +123,9 @@
 
 <script>
     var app = angular.module('splash', []);
+    var poolAPIData = {};
+    var poolData = {};
+
     app.controller('poolCtrl', function ($scope) {
 
         $(document).ready(function () {
@@ -124,14 +133,57 @@
                 url: 'config/pools.json',
                 dataType: 'json',
                 success: function (json) {
-                    console.log(json);
-                    $scope.poolJSON = json;
-                    $scope.$apply();
+                    getPoolAPIData(json);
                 }
             });
-        });
-    });
 
+        });
+
+        function getPoolAPIData(poollist) {
+            Object.entries(poollist).map(([pooltype, pools]) => {
+                for (var i = 0; i < pools.length; i++) {
+                    $.ajax({
+                        url: pools[i]['url'] + '/index.php?page=api&action=public',
+                        dataType: 'json',
+                        async: false,
+                        success: function (json) {
+                            var editedJSON = json;
+                            editedJSON['hashrate'] = convertHashrate(editedJSON['hashrate']);
+                            editedJSON['network_hashrate'] = convertHashrate(editedJSON['network_hashrate']);
+
+                            poolAPIData[pools[i]['name']] = json;
+
+                        }
+                    });
+                }
+                $scope.poolJSON = poollist;
+                $scope.poolAPIJSON = poolAPIData;
+                $scope.$apply();
+
+            });
+
+        }
+        function convertHashrate(rawrate) {
+            if (Math.ceil(rawrate).toString().length < 4) {//Kilohash
+                return Math.round(Math.ceil(rawrate)) + ' KH/s';
+            }
+            if (Math.ceil(rawrate).toString().length >= 4 && Math.ceil(rawrate).toString().length < 7) { //Megahash
+                return Math.round(Math.ceil(rawrate) / 1000) + ' MH/s'
+            }
+            if (Math.ceil(rawrate).toString().length >= 7 && Math.ceil(rawrate).toString().length < 10) {//Gigahash
+                return Math.round(Math.ceil(rawrate) / 1000000) + ' GH/s'
+            }
+            if (Math.ceil(rawrate).toString().length >= 10 && Math.ceil(rawrate).toString().length < 13) {//Terrahash
+                return Math.round(Math.ceil(rawrate) / 1000000000) + ' TH/s'
+            }
+            if (Math.ceil(rawrate).toString().length >= 13 && Math.ceil(rawrate).toString().length < 16) {//Petahash
+                return Math.round(Math.ceil(rawrate) / 1000000000000) + ' PH/s'
+            }
+            if (Math.ceil(rawrate).toString().length >= 16 && Math.ceil(rawrate).toString().length < 19) {//Idek joe is retarded
+                return Math.round(Math.ceil(rawrate) / 1000000000000000) + ' EX/s'
+            }
+        }
+    });
 
 </script>
 
