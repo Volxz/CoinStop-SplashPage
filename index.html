@@ -149,7 +149,7 @@
                         success: function (json) {
                             var editedJSON = json;
                             editedJSON['hashrate'] = convertHashrate(editedJSON['hashrate']);
-                            editedJSON['network_hashrate'] = convertHashrate(editedJSON['network_hashrate']);
+                            editedJSON['network_hashrate'] = convertNetHashrate(editedJSON['network_hashrate']);
 
                             poolAPIData[pools[i]['name']] = json;
 
@@ -163,6 +163,30 @@
             });
 
         }
+        function convertNetHashrate(rawrate) {
+            if (Math.ceil(rawrate).toString().length >= 0 && Math.ceil(rawrate).toString().length < 4) {//hash
+                return Math.round(Math.ceil(rawrate)) + ' H/s';
+            }
+            if (Math.ceil(rawrate).toString().length >= 4 && Math.ceil(rawrate).toString().length < 7) {//Kilohash
+                return Math.round(Math.ceil(rawrate)) + ' KH/s';
+            }
+            if (Math.ceil(rawrate).toString().length >= 7 && Math.ceil(rawrate).toString().length < 10) { //Megahash
+                return Math.round(Math.ceil(rawrate) / 1000) + ' MH/s'
+            }
+            if (Math.ceil(rawrate).toString().length >= 10 && Math.ceil(rawrate).toString().length < 13) {//Gigahash
+                return Math.round(Math.ceil(rawrate) / 1000000) + ' GH/s'
+            }
+            if (Math.ceil(rawrate).toString().length >= 10 && Math.ceil(rawrate).toString().length < 16) {//Terrahash
+                return Math.round(Math.ceil(rawrate) / 1000000000) + ' TH/s'
+            }
+            if (Math.ceil(rawrate).toString().length >= 13 && Math.ceil(rawrate).toString().length < 19) {//Petahash
+                return Math.round(Math.ceil(rawrate) / 1000000000000) + ' PH/s'
+            }
+            if (Math.ceil(rawrate).toString().length >= 16 && Math.ceil(rawrate).toString().length < 22) {//Idek joe is retarded
+                return Math.round(Math.ceil(rawrate) / 1000000000000000) + ' EX/s'
+            }
+        }
+
         function convertHashrate(rawrate) {
             if (Math.ceil(rawrate).toString().length < 4) {//Kilohash
                 return Math.round(Math.ceil(rawrate)) + ' KH/s';
